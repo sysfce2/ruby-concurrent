@@ -105,10 +105,10 @@ module Concurrent
 
           begin
             result = yield
-          rescue Transaction::AbortError => e
+          rescue Transaction::AbortError
             transaction.abort
             result = Transaction::ABORTED
-          rescue Transaction::LeaveError => e
+          rescue Transaction::LeaveError
             transaction.abort
             break result
           rescue Exception
