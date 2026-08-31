@@ -152,6 +152,17 @@ RSpec.shared_examples :atomic_fixnum do
       atomic = described_class.new(1000)
       expect(atomic.update { |v| v + 1 }).to eq 1001
     end
+
+    it 'rejects a non-integer result without changing the value' do
+      atomic = described_class.new(1000)
+
+      expect {
+        atomic.update { 'not an integer' }
+      }.to(raise_error { |error|
+        expect(error.class).to be(ArgumentError).or(be(TypeError))
+      })
+      expect(atomic.value).to eq 1000
+    end
   end
 end
 

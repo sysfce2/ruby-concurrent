@@ -55,7 +55,7 @@ module Concurrent
     # @!macro atomic_fixnum_method_update
     def update
       synchronize do
-        @value = yield @value
+        ns_set(yield @value)
       end
     end
 

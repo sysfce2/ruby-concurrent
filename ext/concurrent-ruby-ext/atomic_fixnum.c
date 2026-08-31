@@ -73,6 +73,7 @@ VALUE method_atomic_fixnum_update(VALUE self) {
   for (;;) {
     old_value = method_atomic_fixnum_value(self);
     new_value = rb_yield(old_value);
+    Check_Type(new_value, T_FIXNUM);
     if (ir_compare_and_set(self, old_value, new_value) == Qtrue) {
       return new_value;
     }
